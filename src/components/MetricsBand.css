@@ -1,0 +1,46 @@
+.metrics-band {
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(8px);
+}
+
+.metrics-band-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+}
+
+.band-metric {
+  text-align: center;
+  border-right: 1px solid var(--glass-border);
+}
+
+.band-metric:last-child {
+  border-right: none;
+}
+
+.band-value {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.band-label {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .metrics-band-inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1rem;
+  }
+  .band-metric:nth-child(even) { border-right: none; }
+  .band-value { font-size: 1.5rem; }
+}

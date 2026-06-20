@@ -1,0 +1,44 @@
+.problem-solution-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.narrative-box {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: rgba(10, 10, 15, 0.5);
+  border-left: 4px solid;
+}
+
+.problem-box {
+  border-left-color: var(--accent-purple);
+}
+
+.solution-box {
+  border-left-color: var(--accent-cyan);
+  background: rgba(0, 229, 255, 0.03);
+}
+
+.box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.box-header h4 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin: 0;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.narrative-box p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}

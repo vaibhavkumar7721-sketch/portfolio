@@ -1,0 +1,116 @@
+.roadmap-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.roadmap-card {
+  padding: 2.5rem;
+  transition: transform 0.3s ease;
+}
+
+.roadmap-card:hover {
+  transform: translateY(-5px);
+}
+
+.roadmap-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.roadmap-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.roadmap-title h3 {
+  font-size: 1.75rem;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.roadmap-body ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.roadmap-body li {
+  position: relative;
+  padding-left: 2rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.roadmap-body li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+}
+
+.short-term .roadmap-body li::before {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.long-term .roadmap-body li::before {
+  background: var(--accent-purple);
+  box-shadow: 0 0 10px var(--accent-purple);
+}
+
+.roadmap-body strong {
+  color: #fff;
+  font-family: var(--font-heading);
+}
+
+.roadmap-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.connector-line {
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-purple));
+  opacity: 0.5;
+}
+
+.compass-icon {
+  animation: pulse-spin 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-spin {
+  0% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+  100% { transform: scale(1.1) rotate(15deg); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .roadmap-header {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .roadmap-title {
+    align-items: center;
+  }
+}

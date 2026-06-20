@@ -1,0 +1,128 @@
+.text-left {
+  text-align: left;
+  margin: 0;
+}
+
+.arch-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  margin-top: 4rem;
+  padding-left: 2rem;
+}
+
+.arch-step {
+  display: flex;
+  gap: 3rem;
+  min-height: 200px;
+}
+
+.step-connector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-node {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid var(--glass-border);
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--glass-shadow);
+  color: var(--accent-blue);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.15);
+}
+
+.step-line {
+  flex: 1;
+  width: 2px;
+  background: #E5E7EB;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-flow {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent, var(--accent-blue), transparent);
+  animation: flow 2s linear infinite;
+}
+
+.step-content {
+  flex: 1;
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.step-number {
+  position: absolute;
+  top: -1.5rem;
+  right: 1rem;
+  font-size: 6rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  opacity: 0.05;
+  line-height: 1;
+  user-select: none;
+  color: var(--text-primary);
+}
+
+@keyframes flow {
+  0% { top: -50%; }
+  100% { top: 100%; }
+}
+
+@media (max-width: 768px) {
+  .arch-timeline {
+    padding-left: 0;
+  }
+  
+  .arch-step {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .step-connector {
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .step-line {
+    height: 2px;
+    width: auto;
+    flex: 1;
+  }
+  
+  .animated-flow {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, var(--accent-blue), transparent);
+    animation: flow-horizontal 2s linear infinite;
+  }
+}
+
+@keyframes flow-horizontal {
+  0% { left: -50%; }
+  100% { left: 100%; }
+}

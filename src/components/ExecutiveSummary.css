@@ -1,0 +1,51 @@
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.summary-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem;
+  background: rgba(10, 10, 15, 0.7);
+}
+
+.bullet-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bullet-item {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.bullet-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bullet-icon {
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.bullet-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.text-primary {
+  color: var(--text-primary);
+  font-weight: 600;
+}
