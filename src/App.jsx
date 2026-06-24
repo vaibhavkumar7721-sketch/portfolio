@@ -38,7 +38,7 @@ function App() {
           <div className="nav-links">
             <a href="#skills">Skills</a>
             <a href="#lighthouse-core">Lighthouse Platform</a>
-            <a href="#case-studies">Case Studies</a>
+            <a href="#case-studies">Projects</a>
             <a href="#contact" className="text-cyan">Hire Me</a>
           </div>
         </div>

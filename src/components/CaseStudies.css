@@ -231,6 +231,47 @@
   box-shadow: 0 0 18px rgba(0, 229, 255, 0.2);
 }
 
+.cs-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cs-phase {
+  border-left: 2px solid var(--accent-purple);
+  padding: 1rem 1.25rem;
+  background: rgba(139, 92, 246, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+.cs-phase:nth-child(2) {
+  border-left-color: var(--accent-cyan);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.cs-phase-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  margin-bottom: 0.5rem;
+}
+
+.cs-phase:nth-child(2) .cs-phase-label {
+  color: var(--accent-cyan);
+}
+
+.cs-phase p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.cs-phase .cs-tags {
+  margin-top: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .cs-card-header { padding: 1.25rem; }
   .cs-body { padding: 0 1.25rem 1.25rem; }

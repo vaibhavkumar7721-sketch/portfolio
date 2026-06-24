@@ -81,6 +81,23 @@ const CaseStudyCard = ({ study, index }) => {
             </div>
           </div>
 
+          {study.phases && (
+            <div className="cs-block">
+              <div className="cs-block-head"><Layers size={18} className="text-purple" /><h4>How it evolved</h4></div>
+              <div className="cs-phases">
+                {study.phases.map((phase, i) => (
+                  <div key={i} className="cs-phase">
+                    <div className="cs-phase-label">{phase.label}</div>
+                    <p>{phase.description}</p>
+                    <div className="cs-tags">
+                      {phase.stack.map((t) => <span key={t} className="tech-tag">{t}</span>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="cs-block">
             <div className="cs-block-head"><CheckCircle2 size={18} className="text-cyan" /><h4>Tech Stack</h4></div>
             <div className="cs-tags">
@@ -124,7 +141,7 @@ const CaseStudies = () => {
   return (
     <section id="work" className="cs-section section-container">
       <div className="section-header text-center">
-        <h2 className="section-title">Case Studies</h2>
+        <h2 className="section-title">Projects</h2>
         <p className="section-subtitle">
           Five platforms I designed and delivered — from regulated credit automation to geo-analytics —
           each framed as problem, architecture, and measurable business outcome.

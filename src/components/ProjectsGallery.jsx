@@ -11,15 +11,15 @@ const ProjectsGallery = () => {
     {
       id: "lighthouse",
       title: "Lighthouse Data Platform",
-      subtitle: "Enterprise Data Analytics Ecosystem",
+      subtitle: "Two-Phase Enterprise ELT Platform",
       icon: <Database size={24} />,
       color: "cyan",
       problem: "Lacked direct database access to the operational LMS and relied on highly volatile, rate-limited vendor APIs, making traditional ETL impossible.",
-      scale: "150M+ Historical Records, 30-50M Daily Throughput, 250+ Operational Tables.",
-      architecture: "Python Extractors -> PyArrow -> AWS S3 (Parquet) -> PostgreSQL (RDS) -> dbt -> FastAPI.",
-      challenges: "Frequent 401 token races, severe OOM errors on large API streams, and unannounced upstream schema drift.",
-      solution: "Engineered a strictly decoupled ELT architecture. Built distributed locks for Auth, PyArrow chunking to keep RAM < 200MB, and ingested raw data exclusively as TEXT to push schema enforcement to dbt.",
-      impact: "Zero Regulatory Penalty Risk, extracted 250+ tables into S3/PostgreSQL in under 30 mins."
+      scale: "150M+ Historical Records, 30-50M Daily Throughput, 90+ Operational Tables.",
+      architecture: "Phase 1: Airflow -> PyArrow -> S3 -> PostgreSQL -> dbt -> FastAPI  |  Phase 2: Airflow -> S3 -> Databricks (PySpark) -> Snowflake -> dbt.",
+      challenges: "Phase 1: 401 token races, OOM on large streams, schema drift. Phase 2: Transformation workloads outgrew PostgreSQL — migrated to Databricks + Snowflake without touching the extraction layer.",
+      solution: "Phase 1 — strict ELT: DAG Factory, PyArrow chunked extraction to S3 Parquet, raw TEXT load into PostgreSQL, dbt staging→mart, FastAPI portal for 100+ reports and CIBIL TUDF automation. Phase 2 — kept the proven Airflow + S3 extraction unchanged, migrated transformation to Databricks (PySpark) for distributed compute, and loaded curated outputs into Snowflake as the analytical warehouse with dbt-on-Snowflake for the mart layer.",
+      impact: "Zero Regulatory Penalty Risk, 8 hrs/day manual reporting eliminated, 150M+ records governed. Phase 2 unlocked distributed transformation and a cloud-native warehouse — zero changes to the extraction layer."
     },
     {
       id: "bureau",
@@ -93,7 +93,7 @@ const ProjectsGallery = () => {
   return (
     <AnimatedSection id="case-studies" className="projects-section section-container">
       <div className="section-header text-center">
-        <h2 className="section-title">Flagship Case Studies</h2>
+        <h2 className="section-title">Projects</h2>
         <p className="section-subtitle">
           End-to-end platforms built to solve complex business constraints at scale.
         </p>

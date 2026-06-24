@@ -1,4 +1,4 @@
-// Case study content backbone.
+// Project content backbone.
 // Lighthouse Core is grounded in the actual codebase.
 // The other four are based on delivered projects (not part of this repo).
 
@@ -60,8 +60,8 @@ export const caseStudies = [
   {
     id: 'lighthouse-core',
     title: 'Lighthouse — Enterprise Data Platform',
-    tagline: 'A decoupled ELT platform ingesting 150M+ rows from volatile vendor APIs into a governed warehouse.',
-    tags: ['Airflow', 'dbt', 'AWS S3', 'PostgreSQL', 'FastAPI', 'PyArrow', 'OAuth2'],
+    tagline: 'A two-phase ELT platform evolving from PostgreSQL + dbt to Databricks + Snowflake — ingesting 150M+ rows from volatile vendor APIs into a governed warehouse.',
+    tags: ['Airflow', 'dbt', 'AWS S3', 'PostgreSQL', 'Databricks', 'Snowflake', 'FastAPI', 'PyArrow', 'OAuth2'],
     accent: 'purple',
     featured: true,
     fromCodebase: true,
@@ -77,24 +77,41 @@ export const caseStudies = [
       'Vendor APIs introduced silent schema drift and unpredictable payload shapes.',
       'OAuth2 tokens expired hourly, causing 401 cascade failures across parallel workers.',
       '2M+ row tables caused out-of-memory crashes on standard workers.',
-      'Maintaining 90+ hand-written DAGs was unsustainable technical debt.'
+      'Maintaining 90+ hand-written DAGs was unsustainable technical debt.',
+      'Phase 2: transformation workloads outgrew PostgreSQL — complex joins and aggregations needed distributed compute.',
+      'Phase 2: Snowflake required a clean migration of mart-layer logic from dbt-on-Postgres to dbt-on-Snowflake without disrupting downstream consumers.'
+    ],
+    phases: [
+      {
+        label: 'Phase 1 — ELT on PostgreSQL',
+        description: 'A config-driven DAG Factory generates Airflow DAGs at runtime from tables.json. Generic OAuth2 extractors stream JSON into Snappy-compressed Parquet on S3 (immutable data lake), bulk-loaded into PostgreSQL as schema-agnostic TEXT, then shaped by dbt across staging → intermediate → mart layers with data-quality tests. A FastAPI microservice with RBAC serves 100+ reports and automates CIBIL TUDF generation, with MS Teams alerting throughout.',
+        stack: ['Apache Airflow 3.x', 'PyArrow / Parquet', 'AWS S3', 'PostgreSQL (AWS RDS)', 'dbt-core 1.7.9', 'FastAPI', 'OAuth2']
+      },
+      {
+        label: 'Phase 2 — Transform on Databricks, Load into Snowflake',
+        description: 'The Extract layer (Airflow + S3) remained unchanged. Transformation was migrated to Databricks — PySpark jobs handle complex aggregations and feature engineering at scale that overwhelmed PostgreSQL. Curated outputs are loaded into Snowflake as the analytical warehouse, with dbt running on Snowflake for the mart layer. This gave the platform distributed compute for transformation and a cloud-native warehouse for serving.',
+        stack: ['Apache Airflow', 'AWS S3', 'Databricks (PySpark)', 'Snowflake', 'dbt-on-Snowflake', 'FastAPI']
+      }
     ],
     solution:
-      'I architected a strict Extract-Load-Transform platform. A config-driven DAG Factory generates Airflow DAGs at runtime from tables.json. Generic OAuth2 extractors stream JSON into Snappy-compressed Parquet on S3 (an immutable data lake), which is bulk-loaded into PostgreSQL as schema-agnostic TEXT, then shaped by dbt across staging/intermediate/mart layers with data-quality tests. A FastAPI microservice with RBAC serves 100+ reports and automates CIBIL TUDF generation, with MS Teams alerting throughout.',
+      'Built in two phases. Phase 1: a strict ELT platform with a DAG Factory, PyArrow extractors writing Parquet to S3, PostgreSQL as the warehouse, and dbt for transformation — eliminating 8 hrs/day of manual reporting and automating regulatory bureau submissions. Phase 2: kept the proven extraction layer, migrated transformation to Databricks (PySpark) for distributed compute, and moved the analytical warehouse to Snowflake — scaling the platform to handle heavier workloads without touching the ingestion architecture.',
     architecture: `flowchart LR
     subgraph SaaS["Core Banking SaaS"]
         API[("Finflux JSON API")]
     end
-    subgraph Extract["Extraction (Airflow)"]
+    subgraph Extract["Extract — Airflow (both phases)"]
         DAG["Dynamic DAG Factory"]
         PY["PyArrow Extractor<br/>(OAuth2 + chunking)"]
-    end
-    subgraph Lake["Data Lake"]
         S3[("AWS S3<br/>Snappy Parquet")]
     end
-    subgraph WH["Warehouse"]
+    subgraph P1["Phase 1 — Transform + Load"]
         PG[("PostgreSQL / RDS")]
-        DBT["dbt-core<br/>staging→mart"]
+        DBT1["dbt-core<br/>staging→mart"]
+    end
+    subgraph P2["Phase 2 — Transform + Load"]
+        DB["Databricks<br/>(PySpark)"]
+        SF[("Snowflake")]
+        DBT2["dbt-on-Snowflake<br/>mart layer"]
     end
     subgraph Serve["Delivery"]
         API2["FastAPI Portal<br/>(RBAC, 100+ reports)"]
@@ -102,10 +119,12 @@ export const caseStudies = [
         TEAMS["MS Teams Alerts"]
     end
     API --> PY
-    DAG --> PY --> S3 --> PG --> DBT --> API2
-    DBT --> TUDF
+    DAG --> PY --> S3
+    S3 --> PG --> DBT1 --> API2
+    S3 --> DB --> SF --> DBT2 --> API2
+    DBT1 --> TUDF
     DAG -.-> TEAMS`,
-    techStack: ['Python', 'Apache Airflow 3.x', 'dbt-core 1.7.9', 'PostgreSQL (AWS RDS)', 'AWS S3', 'PyArrow / Parquet', 'FastAPI', 'SQLAlchemy', 'Azure Blob', 'OAuth2'],
+    techStack: ['Python', 'Apache Airflow 3.x', 'PyArrow / Parquet', 'AWS S3', 'PostgreSQL (AWS RDS)', 'dbt-core 1.7.9', 'Databricks (PySpark)', 'Snowflake', 'dbt-on-Snowflake', 'FastAPI', 'SQLAlchemy', 'OAuth2'],
     impact: [
       { value: '150M+', label: 'Historical records' },
       { value: '30M+', label: 'Rows / day throughput' },
@@ -113,9 +132,9 @@ export const caseStudies = [
       { value: 'Zero', label: 'Regulatory penalty risk' }
     ],
     outcome:
-      'Lighthouse became the central data foundation for the Non-MFI business unit: compliant, automated bureau submissions; consistent partner reporting; and self-service analytics — all decoupled from the fragile operational core with 99.9%+ reliability.',
+      'Lighthouse became the central data foundation for the Non-MFI business unit: compliant, automated bureau submissions; consistent partner reporting; and self-service analytics. Phase 2 unlocked distributed transformation on Databricks and a scalable analytical warehouse on Snowflake — all without disrupting the proven extraction layer.',
     lessons:
-      'Decoupling extraction from loading via an S3 data lake makes the whole system recoverable without re-taxing fragile APIs. Pushing schema enforcement down to dbt (raw TEXT in, typed out) is what lets pipelines survive upstream vendor changes.'
+      'Decoupling Extract (Airflow + S3) from Transform + Load means you can evolve the warehouse independently. Phase 2 proved this: swapping PostgreSQL + dbt for Databricks + Snowflake required zero changes to ingestion. Schema enforcement at the dbt layer (raw TEXT in, typed out) is what lets the pipeline survive both upstream vendor drift and downstream warehouse migrations.'
   },
   {
     id: 'geo-analytics',
